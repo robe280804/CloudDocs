@@ -26,4 +26,17 @@ class UserRepositoryImpl implements UserRepository
             );
         }
     }
+
+    public function getUserById(string $userId): ?User
+    {
+        try {
+            return User::find($userId);
+        } catch (QueryException $ex) {
+            throw new UserDatabaseException(
+                "Impossibile ottenere l'utente",
+                0,
+                $ex
+            );
+        }
+    }
 }

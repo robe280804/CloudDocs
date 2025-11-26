@@ -8,4 +8,5 @@ use App\Models\User;
 interface UserRepository
 {
     public function create(RegisterUserRequest $request): User;
+    public function getUserById(string $userId): ?User;
 }

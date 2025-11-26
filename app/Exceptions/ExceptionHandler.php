@@ -6,6 +6,8 @@ use Exception;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\JsonResponse;
 use Throwable;
+use App\Exceptions\UserNotFoundException;
+use App\Exceptions\UserDatabaseException;
 
 class ExceptionHandler extends Handler
 {
@@ -23,6 +25,12 @@ class ExceptionHandler extends Handler
                 return response()->json([
                     'errors' => $exception->errors()
                 ], 422);
+            }
+
+            if ($exception instanceof UserNotFoundException) {
+                return response()->json([
+                    'errors' => $exception->getMessage(),
+                ], 404);
             }
 
             return response()->json([

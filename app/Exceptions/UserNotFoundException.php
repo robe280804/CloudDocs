@@ -3,18 +3,18 @@
 namespace App\Exceptions;
 
 use Exception;
-use Illuminate\Http\Response;
 use Throwable;
+use Illuminate\Http\Response;
 
-class UserDatabaseException extends Exception
+class UserNotFoundException extends Exception
 {
     protected int $statusCode;
 
     public function __construct(
-        string $message = "Server error",
+        string $message = "User not found",
         int $code = 0,
         ?Throwable $previous = null,
-        int $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR
+        int $statusCode = Response::HTTP_NOT_FOUND
     ) {
         parent::__construct($message, $code, $previous);
         $this->statusCode = $statusCode;

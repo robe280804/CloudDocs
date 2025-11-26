@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Exceptions\UserDatabaseException;
+use App\Exceptions\UserNotFoundException;
 use App\Http\Requests\RegisterUserRequest;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Log;
@@ -17,7 +17,7 @@ class UserServiceImpl implements UserService
         $this->userRepository = $userRepository;
     }
 
-    public function register(RegisterUserRequest $request)
+    public function register(RegisterUserRequest $request): User
     {
         Log::info("[REGISTER] Register for {$request['email']}");
 
@@ -25,6 +25,17 @@ class UserServiceImpl implements UserService
         $savedUser->assignRole('user');
 
         Log::info("[REGISTER] Register confirm for user {$savedUser->email}");
+        return $savedUser;
+    }
+
+    public function getUser(string $userId): User
+    {
+        Log::info("[USER-INFO] Info for user $userId");
+        $savedUser = $this->userRepository->getUserById($userId);
+
+        if (!$savedUser) {
+            throw new UserNotFoundException("User with ID: $userId not found");
+        }
         return $savedUser;
     }
 }

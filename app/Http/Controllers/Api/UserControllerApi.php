@@ -40,9 +40,12 @@ class UserControllerApi extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function userInfo(string $id)
     {
-        //
+        $savedUser = $this->userService->getUser($id);
+        return response()->json([
+            'user' => new UserResource($savedUser)
+        ]);
     }
 
     /**

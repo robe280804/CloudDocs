@@ -8,8 +8,9 @@ use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Repositories\UserRepositoryImpl;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Mockery;
+use Illuminate\Support\Str;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Hash;
 
 
 class UserRepositoryTest extends TestCase
@@ -64,7 +65,7 @@ class UserRepositoryTest extends TestCase
         $existingUser = User::factory()->create([
             'name' => 'Robe',
             'email' => 'robe@gmail.com',
-            'password' => 'robe*04'
+            'password' => Hash::make('robe*04')
         ]);
 
         $this->userRepository->create(new RegisterUserRequest([
@@ -72,5 +73,25 @@ class UserRepositoryTest extends TestCase
             'email' => 'robe@gmail.com',
             'password' => 'robe*04'
         ]));
+    }
+
+    public function test_get_user_success()
+    {
+        $existingUser = User::factory()->create([
+            'id' => Str::uuid(),
+            'name' => 'Mario',
+            'email' => 'mario@example.com',
+            'password' => Hash::make('password*123')
+        ]);
+
+        $userById = User::find($existingUser->id);
+
+        $this->assertInstanceOf(User::class, $userById);
+        $this->assertEquals($existingUser->name, $userById->name);
+        $this->assertEquals($existingUser->email, $userById->email);
+
+        $this->assertDatabaseHas('users', [
+            'email' => $userById->email
+        ]);
     }
 }
