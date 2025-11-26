@@ -6,6 +6,7 @@ use App\Exceptions\UserDatabaseException;
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Hash;
 
 class UserRepositoryImpl implements UserRepository
 {
@@ -15,7 +16,7 @@ class UserRepositoryImpl implements UserRepository
             return User::create([
                 'name' => $request['name'],
                 'email' => $request['email'],
-                'password' => $request['password'],
+                'password' => Hash::make($request['password']),
             ]);
         } catch (QueryException $ex) {
             throw new UserDatabaseException(

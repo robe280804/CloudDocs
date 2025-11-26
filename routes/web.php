@@ -32,4 +32,4 @@ Route::middleware(['auth'])->group(function () {
         ->name('two-factor.show');
 });
 
-Route::get("/register", RegisterUser::class);
+//Route::get("/register", RegisterUser::class);
