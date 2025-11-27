@@ -7,6 +7,7 @@ use App\Http\Requests\RegisterUserRequest;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
+use Illuminate\Support\Collection;
 
 class UserServiceImpl implements UserService
 {
@@ -37,5 +38,11 @@ class UserServiceImpl implements UserService
             throw new UserNotFoundException("User with ID: $userId not found");
         }
         return $savedUser;
+    }
+
+    public function getAllUser(): Collection
+    {
+        Log::info("");
+        return $this->userRepository->getAllUsers();
     }
 }

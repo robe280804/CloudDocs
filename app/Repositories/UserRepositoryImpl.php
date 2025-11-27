@@ -6,6 +6,7 @@ use App\Exceptions\UserDatabaseException;
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 
 class UserRepositoryImpl implements UserRepository
@@ -34,6 +35,19 @@ class UserRepositoryImpl implements UserRepository
         } catch (QueryException $ex) {
             throw new UserDatabaseException(
                 "Impossibile ottenere l'utente",
+                0,
+                $ex
+            );
+        }
+    }
+
+    public function getAllUsers(): Collection
+    {
+        try {
+            return User::all();
+        } catch (QueryException $ex) {
+            throw new UserDatabaseException(
+                "Impossibile ottenere gli utenti",
                 0,
                 $ex
             );

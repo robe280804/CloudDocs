@@ -48,6 +48,13 @@ class UserControllerApi extends Controller
         ]);
     }
 
+    public function allUserInfo()
+    {
+        return response()->json([
+            'user_list' => UserResource::collection($this->userService->getAllUser())
+        ]);
+    }
+
     /**
      * Update the specified resource in storage.
      */

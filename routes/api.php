@@ -13,7 +13,7 @@ Route::get('/user', function (Request $request) {
 Route::post("/register", [UserControllerApi::class, 'register']);
 /*Route::middleware("auth:sanctum")->group(function () {*/
 Route::get('/user/{id}', [UserControllerApi::class, 'userInfo']);
-Route::get('/user', [UserControllerApi::class, 'usersInfo']);
+Route::get('/users', [UserControllerApi::class, 'allUserInfo']);
 Route::post('/update-profile/{id}', [UserControllerApi::class, 'updateProfile']);
 Route::post('/change-password', [UserControllerApi::class, 'changePassword']);
 Route::delete('/user/{id}', [UserControllerApi::class, 'delete']);

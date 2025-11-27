@@ -7,15 +7,17 @@ use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Repositories\UserRepositoryImpl;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Collection;
+use Tests\Helpers\UserHelper;
 
 class UserRepositoryTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, UserHelper;
 
     protected UserRepository $userRepository;
 
@@ -28,19 +30,14 @@ class UserRepositoryTest extends TestCase
 
     public function test_create_user_success()
     {
-        $data = new RegisterUserRequest([
-            'name' => 'Mario Rossi',
-            'email' => 'mario@example.com',
-            'password' => 'password*123'
-        ]);
+        $savedUser = $this->userRepository->create(
+            $this->createRegisterUserRequest()
+        );
 
-        $user = $this->userRepository->create($data);
-
-        $this->assertInstanceOf(User::class, $user);
-        $this->assertEquals('Mario Rossi', $user->name);
-        $this->assertEquals('mario@example.com', $user->email);
+        // Check if is equals to $newUser
+        $this->assertInstanceOf(User::class, $savedUser);
         $this->assertDatabaseHas('users', [
-            'email' => 'mario@example.com'
+            'email' => $savedUser->email
         ]);
     }
 
@@ -48,50 +45,71 @@ class UserRepositoryTest extends TestCase
     {
         $this->expectException(UserDatabaseException::class);
 
-        $data = new RegisterUserRequest([
-            'name' => null,
-            'email' => 'luigi@example.com',
-            'password' => 'password*123'
-        ]);
-
-
-        $this->userRepository->create($data);
+        // User with name = null
+        // Check if fails 
+        $this->userRepository->create(
+            $this->createRegisterUserRequest(['name' => null])
+        );
     }
 
     public function test_create_user_with_same_email()
     {
         $this->expectException(UserDatabaseException::class);
 
-        $existingUser = User::factory()->create([
-            'name' => 'Robe',
-            'email' => 'robe@gmail.com',
-            'password' => Hash::make('robe*04')
-        ]);
+        $this->createUser(['email' => 'robe@gmail.com']);
 
-        $this->userRepository->create(new RegisterUserRequest([
-            'name' => 'Robe',
-            'email' => 'robe@gmail.com',
-            'password' => 'robe*04'
-        ]));
+        // Insert new user with same email
+        $this->userRepository->create(
+            $this->createRegisterUserRequest(['email' => 'robe@gmail.com'])
+        );
     }
 
     public function test_get_user_success()
     {
-        $existingUser = User::factory()->create([
-            'id' => Str::uuid(),
-            'name' => 'Mario',
-            'email' => 'mario@example.com',
-            'password' => Hash::make('password*123')
-        ]);
 
-        $userById = User::find($existingUser->id);
+        $newUser = $this->createUser();
 
-        $this->assertInstanceOf(User::class, $userById);
-        $this->assertEquals($existingUser->name, $userById->name);
-        $this->assertEquals($existingUser->email, $userById->email);
+        $savedUser = $this->userRepository->getUserById($newUser->id);
+
+        // Check if is equal to $newUser
+        $this->assertInstanceOf(User::class, $savedUser);
+        $this->assertEquals($newUser->name, $savedUser->name);
+        $this->assertEquals($newUser->email, $savedUser->email);
 
         $this->assertDatabaseHas('users', [
-            'email' => $userById->email
+            'email' => $savedUser->email
         ]);
+    }
+
+    public function test_get_user_null()
+    {
+        $this->createUser();
+
+        // Find user by non-existent id
+        $nullUser = $this->userRepository->getUserById(Str::uuid());
+
+        // Check if is null
+        $this->assertNull($nullUser);
+    }
+
+    public function test_get_all_users_success()
+    {
+        User::factory()->createMany([
+            [
+                'name' => 'Luca',
+                'email' => 'luca@example.com',
+                'password' => Hash::make('password*123')
+            ],
+            [
+                'name' => 'Luigi',
+                'email' => 'luigi@example.com',
+                'password' => Hash::make('password*123')
+            ]
+        ]);
+
+        $listUsers = $this->userRepository->getAllUsers();
+
+        // Check if is a Collection
+        $this->assertInstanceOf(Collection::class, $listUsers);
     }
 }
