@@ -112,4 +112,27 @@ class UserRepositoryTest extends TestCase
         // Check if is a Collection
         $this->assertInstanceOf(Collection::class, $listUsers);
     }
+
+    public function test_update_user_name_success()
+    {
+        $savedUser = $this->createUser(['name' => 'antonio']);
+
+        $isUpdate = $this->userRepository->updateUserName("Anto", $savedUser->id);
+        $updatedUser = User::find($savedUser->id);
+
+        // True if is updated
+        $this->assertTrue($isUpdate);
+        $this->assertEquals("Anto", $updatedUser->name);
+    }
+
+    public function test_delete_user_success()
+    {
+        $savedUser = $this->createUser();
+        $isDeleted = $this->userRepository->deleteUserById($savedUser->id);
+
+        $this->assertTrue($isDeleted);
+        $this->assertDatabaseMissing('users', [
+            'id' => $savedUser->id
+        ]);
+    }
 }

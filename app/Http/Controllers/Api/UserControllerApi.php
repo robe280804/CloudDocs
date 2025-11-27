@@ -7,6 +7,7 @@ use App\Http\Requests\RegisterUserRequest;
 use App\Http\Resources\UserResource;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateUserRequest;
 
 class UserControllerApi extends Controller
 {
@@ -16,13 +17,6 @@ class UserControllerApi extends Controller
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
-    }
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
     }
 
     /**
@@ -47,7 +41,11 @@ class UserControllerApi extends Controller
             'user' => new UserResource($savedUser)
         ]);
     }
-
+    /**
+     * Summary of allUserInfo
+     * Only for ADMIN
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function allUserInfo()
     {
         return response()->json([
@@ -57,10 +55,14 @@ class UserControllerApi extends Controller
 
     /**
      * Update the specified resource in storage.
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, string $id)
+    public function updateUserName(UpdateUserRequest $request, string $id)
     {
-        //
+        $isUpdate = $this->userService->updateUserName($request, $id);
+        return response()->json([
+            'message' => ($isUpdate) ? "User succesfully updated" : "Fail to update the name",
+        ]);
     }
 
     /**
@@ -68,6 +70,9 @@ class UserControllerApi extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $isDeleted = $this->userService->deleteUser($id);
+        return response()->json([
+            'message' => ($isDeleted) ? "User succesfully deleted" : "Fail to delete the user",
+        ]);
     }
 }

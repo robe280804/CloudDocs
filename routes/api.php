@@ -14,7 +14,7 @@ Route::post("/register", [UserControllerApi::class, 'register']);
 /*Route::middleware("auth:sanctum")->group(function () {*/
 Route::get('/user/{id}', [UserControllerApi::class, 'userInfo']);
 Route::get('/users', [UserControllerApi::class, 'allUserInfo']);
-Route::post('/update-profile/{id}', [UserControllerApi::class, 'updateProfile']);
+Route::post('/update-profile-name/{id}', [UserControllerApi::class, 'updateUserName']);
 Route::post('/change-password', [UserControllerApi::class, 'changePassword']);
 Route::delete('/user/{id}', [UserControllerApi::class, 'delete']);
 //});

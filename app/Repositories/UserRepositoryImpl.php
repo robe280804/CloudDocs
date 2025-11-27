@@ -53,4 +53,30 @@ class UserRepositoryImpl implements UserRepository
             );
         }
     }
+
+    public function updateUserName(string $name, string $id): bool
+    {
+        try {
+            return User::where('id', $id)->update(['name' => $name]);
+        } catch (QueryException $ex) {
+            throw new UserDatabaseException(
+                "Impossibile aggiornare il nome dell'utente ",
+                0,
+                $ex
+            );
+        }
+    }
+
+    public function deleteUserById(string $id): bool
+    {
+        try {
+            return User::where('id', $id)->delete() > 0;
+        } catch (QueryException $ex) {
+            throw new UserDatabaseException(
+                "Impossibile eliminare l'utente ",
+                0,
+                $ex
+            );
+        }
+    }
 }

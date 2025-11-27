@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Exceptions\UserNotFoundException;
 use App\Http\Requests\RegisterUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
@@ -42,7 +43,19 @@ class UserServiceImpl implements UserService
 
     public function getAllUser(): Collection
     {
-        Log::info("");
+        Log::info("[ALL-USER-INFO] Info for all users");
         return $this->userRepository->getAllUsers();
+    }
+
+    public function updateUserName(UpdateUserRequest $request, string $id): bool
+    {
+        Log::info("[UPDATE-USER-NAME] Update name for user $id");
+        return $this->userRepository->updateUserName($request['name'], $id);
+    }
+
+    public function deleteUser(string $id): bool
+    {
+        Log::info("[DELETE] Delete user $id");
+        return $this->userRepository->deleteUserById($id);
     }
 }

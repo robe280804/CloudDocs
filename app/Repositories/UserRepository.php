@@ -12,4 +12,8 @@ interface UserRepository
     public function getUserById(string $userId): ?User;
 
     public function getAllUsers(): Collection;
+
+    public function updateUserName(string $name, string $id): bool;
+
+    public function deleteUserById(string $id): bool;
 }
