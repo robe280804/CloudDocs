@@ -39,7 +39,7 @@ class UserControllerApi extends Controller
         $savedUser = $this->userService->getUser($id);
         return response()->json([
             'user' => new UserResource($savedUser)
-        ]);
+        ], 200);
     }
     /**
      * Summary of allUserInfo
@@ -50,7 +50,7 @@ class UserControllerApi extends Controller
     {
         return response()->json([
             'user_list' => UserResource::collection($this->userService->getAllUser())
-        ]);
+        ], 200);
     }
 
     /**
@@ -62,7 +62,7 @@ class UserControllerApi extends Controller
         $isUpdate = $this->userService->updateUserName($request, $id);
         return response()->json([
             'message' => ($isUpdate) ? "User succesfully updated" : "Fail to update the name",
-        ]);
+        ], ($isUpdate) ? 200 : 400);
     }
 
     /**
@@ -73,6 +73,6 @@ class UserControllerApi extends Controller
         $isDeleted = $this->userService->deleteUser($id);
         return response()->json([
             'message' => ($isDeleted) ? "User succesfully deleted" : "Fail to delete the user",
-        ]);
+        ], 200);
     }
 }

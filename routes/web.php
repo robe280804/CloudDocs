@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\LoginUser;
 use App\Livewire\RegisterUser;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
@@ -32,4 +33,5 @@ Route::middleware(['auth'])->group(function () {
         ->name('two-factor.show');
 });
 
-//Route::get("/register", RegisterUser::class);
+Route::get("/register", RegisterUser::class)->name("register");
+Route::get("/login", LoginUser::class)->name("login");

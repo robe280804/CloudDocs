@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 
 interface UserRepository
 {
-    public function create(RegisterUserRequest $request): User;
+    public function create(array | RegisterUserRequest $request): User;
     public function getUserById(string $userId): ?User;
 
     public function getAllUsers(): Collection;

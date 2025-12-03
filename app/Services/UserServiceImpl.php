@@ -19,7 +19,7 @@ class UserServiceImpl implements UserService
         $this->userRepository = $userRepository;
     }
 
-    public function register(RegisterUserRequest $request): User
+    public function register(array | RegisterUserRequest $request): User
     {
         Log::info("[REGISTER] Register for {$request['email']}");
 

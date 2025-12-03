@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserRepositoryImpl implements UserRepository
 {
-    public function create(RegisterUserRequest $request): User
+    public function create(array | RegisterUserRequest $request): User
     {
         try {
             return User::create([
