@@ -12,6 +12,8 @@ class LoginUser extends Component
     public $email;
     public $password;
 
+    public $remember = false;
+
     public function login()
     {
         $credentials = $this->validate([
@@ -30,7 +32,7 @@ class LoginUser extends Component
             ],
         ]);
 
-        if (!Auth::attempt($credentials)) {
+        if (!Auth::attempt($credentials, $this->remember)) {
             throw ValidationException::withMessages([
                 'login' => 'Bad credentials'
             ]);

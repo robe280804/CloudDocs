@@ -1,56 +1,82 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-900">
-    <div class="bg-gray-800 text-white rounded-xl shadow-lg p-10 w-full max-w-md">
-        <h2 class="text-3xl font-bold mb-6 text-center"> Create an account </h2>
+<div
+    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 p-4">
+    <div
+        class="backdrop-blur-xl bg-white/10 border border-white/10 text-white rounded-2xl shadow-2xl p-10 w-full max-w-md">
+        {{-- Title --}}
+        <h2
+            class="text-4xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-slate-200 drop-shadow-lg tracking-wide">
+            Create your account
+        </h2>
 
-        <form class="space-y-6" wire:submit='register'>
+        {{-- Form register --}}
+        <form class="space-y-6">
             <!-- Name -->
-            <div>
-                <label for="name" class="block mb-2 text-sm font-medium">Nome</label>
-                <input type="text" name="name" id="name" required
-                    class="w-full px-4 py-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                    placeholder="Mario Rossi" wire:model='name'>
-                @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            <div class="space-y-1">
+                <flux:field>
+                    <flux:label>
+                        <span class="font-semibold text-blue-400">Name</span>
+                    </flux:label>
+                    <flux:input wire:model="name" type="name" placeholder="Insert your name" class="text-white" />
+                    <flux:error name="name" />
+                </flux:field>
             </div>
 
             <!-- Email -->
-            <div>
-                <label for="email" class="block mb-2 text-sm font-medium">Email</label>
-                <input type="email" name="email" id="email" required
-                    class="w-full px-4 py-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                    placeholder="mario@example.com" wire:model='email'>
-                @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            <div class="space-y-1">
+                <flux:field>
+                    <flux:label>
+                        <span class="font-semibold text-blue-400">Email</span>
+                    </flux:label>
+                    <flux:input wire:model="email" type="email" placeholder="Insert your email" class="text-white" />
+                    <flux:error name="email" />
+                </flux:field>
             </div>
 
             <!-- Password -->
-            <div>
-                <label for="password" class="block mb-2 text-sm font-medium">Password</label>
-                <input type="password" name="password" id="password" required minlength="8"
-                    class="w-full px-4 py-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                    placeholder="********" wire:model='password'>
-                @error('password') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            <div class="space-y-1">
+                <flux:field>
+                    <flux:label>
+                        <span class="font-semibold text-blue-400">Password</span>
+                    </flux:label>
+                    <flux:input wire:model="password" type="password" placeholder="************" class="text-black">
+                        <x-slot name="iconTrailing">
+                            <flux:button size="sm" variant="subtle" icon="eye" class="-mr-1" />
+                        </x-slot>
+                    </flux:input>
+                    <flux:error name="password" />
+                </flux:field>
             </div>
 
             <!-- Confirm Password -->
-            <div>
-                <label for="password_confirmation" class="block mb-2 text-sm font-medium">Confirm Password</label>
-                <input type="password" name="password_confirmation" id="password_confirmation" required minlength="8"
-                    class="w-full px-4 py-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                    placeholder="********" wire:model='password_confirmation'>
-                @error('password_confirmation') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            <div class="space-y-1">
+                <flux:field>
+                    <flux:label>
+                        <span class="font-semibold text-blue-400">Confirm password</span>
+                    </flux:label>
+                    <flux:input wire:model='password_confirmation' type="password" placeholder="Confirm your password"
+                        class="text-black">
+                        <x-slot name="iconTrailing">
+                            <flux:button size="sm" variant="subtle" icon="eye" class="-mr-1" />
+                        </x-slot>
+                    </flux:input>
+                    <flux:error name="password_confirmation" />
+                </flux:field>
             </div>
 
             <!-- Submit Button -->
             <div>
-                <button type="submit"
-                    class="w-full bg-indigo-600 hover:bg-indigo-700 transition-colors duration-300 text-white font-semibold py-3 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                <flux:button variant="primary" color="blue" wire:click='register'
+                    class="cursor-pointer w-full py-3 rounded-xl font-semibold shadow-lg shadow-blue-600/40">
                     Register
-                </button>
+                </flux:button>
             </div>
         </form>
 
-        <p class="mt-6 text-center text-gray-400 text-sm">
-            You alredy have an account?
-            <a href="{{ route('login') }}" class="text-indigo-500 hover:underline">Sing In</a>
+        {{-- Links --}}
+        <p class="mt-8 text-center text-gray-300 text-sm">
+            Already have an account?
+            <a href="{{ route('login') }}"
+                class="text-blue-400 hover:text-blue-300 transition underline font-semibold">Sign In</a>
         </p>
     </div>
 </div>

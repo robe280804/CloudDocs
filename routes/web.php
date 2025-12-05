@@ -2,6 +2,8 @@
 
 use App\Livewire\LoginUser;
 use App\Livewire\RegisterUser;
+use App\Livewire\ResetPasswordConfirm;
+use App\Livewire\ResetPasswordRequest;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
@@ -33,5 +35,10 @@ Route::middleware(['auth'])->group(function () {
         ->name('two-factor.show');
 });
 
-Route::get("/register", RegisterUser::class)->name("register");
-Route::get("/login", LoginUser::class)->name("login");
+// If you are logged in, you can't see this
+Route::middleware('guest')->group(function () {
+    Route::get("/register", RegisterUser::class)->name("register");
+    Route::get("/login", LoginUser::class)->name("login");
+    Route::get("/forgot-password", ResetPasswordRequest::class)->name("forgot.password");
+    Route::get("/reset-password/{token}", ResetPasswordConfirm::class)->name('password.reset');
+});
