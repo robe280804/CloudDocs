@@ -9,7 +9,7 @@
         </h2>
 
         {{-- Form register --}}
-        <form class="space-y-6">
+        <form class="space-y-6" wire:submit='register'>
             <!-- Name -->
             <div class="space-y-1">
                 <flux:field>
@@ -65,7 +65,7 @@
 
             <!-- Submit Button -->
             <div>
-                <flux:button variant="primary" color="blue" wire:click='register'
+                <flux:button variant="primary" color="blue" type="submit"
                     class="cursor-pointer w-full py-3 rounded-xl font-semibold shadow-lg shadow-blue-600/40">
                     Register
                 </flux:button>

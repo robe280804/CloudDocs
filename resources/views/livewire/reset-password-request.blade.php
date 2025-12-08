@@ -1,7 +1,12 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-900">
-    <div class="bg-gray-800 text-white rounded-xl shadow-lg p-10 w-full max-w-md">
-        <h2 class="text-3xl font-bold mb-6 text-center text-indigo-400"> Reset your password </h2>
-
+<div
+    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 p-4">
+    <div
+        class="backdrop-blur-xl bg-white/10 border border-white/10 text-white rounded-2xl shadow-2xl p-10 w-full max-w-md">
+        {{-- Title --}}
+        <h2
+            class="text-4xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-slate-200 drop-shadow-lg tracking-wide">
+            Sing in to <span class="text-blue-300">Cloud Docs</span>
+        </h2>
         <!-- Error server side -->
         @error('reset-password')
         <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 4000)"
@@ -30,19 +35,26 @@
 
         <!-- Form for email -->
         <form class="space-y-6" wire:submit='resetPasswordRequest'>
-            <div>
-                <label for="email" class="block mb-2 text-sm font-medium">Email</label>
-                <input type="email" name="email" id="email" required
-                    class="w-full px-4 py-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                    placeholder="mario@example.com" wire:model='email'>
-                @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            @csrf
+
+            <!-- Email -->
+            <div class="space-y-1">
+                <flux:field>
+                    <flux:label>
+                        <span class="font-semibold text-blue-400">Email</span>
+                    </flux:label>
+                    <flux:input wire:model="email" type="email" placeholder="Insert your email" class="text-white" />
+                    <flux:error name="email" />
+                </flux:field>
             </div>
 
-            <!-- Submit -->
-            <button type="submit"
-                class="cursor-pointer w-full bg-indigo-600 hover:bg-indigo-700 transition-colors duration-300 text-white font-semibold py-3 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                Sign In
-            </button>
+            <!-- Submit Button -->
+            <div>
+                <flux:button variant="primary" color="blue" type="submit"
+                    class="cursor-pointer w-full py-3 rounded-xl font-semibold shadow-lg shadow-blue-600/40">
+                    Send email
+                </flux:button>
+            </div>
         </form>
     </div>
 </div>

@@ -36,7 +36,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // If you are logged in, you can't see this
-Route::middleware('guest')->group(function () {
+Route::middleware(''/*'guest'*/)->group(function () {
     Route::get("/register", RegisterUser::class)->name("register");
     Route::get("/login", LoginUser::class)->name("login");
     Route::get("/forgot-password", ResetPasswordRequest::class)->name("forgot.password");
