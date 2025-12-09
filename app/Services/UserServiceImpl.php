@@ -6,6 +6,7 @@ use App\Exceptions\UserNotFoundException;
 use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Repositories\UserRepository;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
 use Illuminate\Support\Collection;
@@ -27,6 +28,8 @@ class UserServiceImpl implements UserService
         $savedUser->assignRole('user');
 
         Log::info("[REGISTER] Register confirm for user {$savedUser->email}");
+
+        event(new Registered($savedUser));
         return $savedUser;
     }
 

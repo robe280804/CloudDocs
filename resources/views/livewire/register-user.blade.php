@@ -10,6 +10,7 @@
 
         {{-- Form register --}}
         <form class="space-y-6" wire:submit='register'>
+            @csrf
             <!-- Name -->
             <div class="space-y-1">
                 <flux:field>

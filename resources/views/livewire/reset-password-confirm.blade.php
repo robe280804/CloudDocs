@@ -12,6 +12,7 @@
         <input type="hidden" wire:model='email' name="email">
 
         <form class="space-y-6" wire:submit='saveNewPassword'>
+            @csrf
             <!-- Password -->
             <div class="space-y-1">
                 <flux:field>

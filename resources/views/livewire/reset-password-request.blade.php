@@ -36,7 +36,6 @@
         <!-- Form for email -->
         <form class="space-y-6" wire:submit='resetPasswordRequest'>
             @csrf
-
             <!-- Email -->
             <div class="space-y-1">
                 <flux:field>
