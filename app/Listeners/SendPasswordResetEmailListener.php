@@ -36,6 +36,9 @@ class SendPasswordResetEmailListener
 
     public function failed(Throwable $ex)
     {
-        Log::error("")
+        Log::error('SendWelcomeEmailListener failed', [
+            'user_id' => $ex->user->id ?? null,
+            'exception' => $ex->getMessage(),
+        ]);
     }
 }

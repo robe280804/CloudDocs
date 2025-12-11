@@ -13,7 +13,8 @@ class RegisterUser extends Component
     public $name;
     public $email;
     public $password;
-    public $password_confirmation;
+
+    public $showPassword = false;
 
     public function boot(UserService $userService)
     {

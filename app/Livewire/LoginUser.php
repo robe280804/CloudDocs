@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
@@ -13,6 +14,7 @@ class LoginUser extends Component
     public $password;
 
     public $remember = false;
+
 
     public function login()
     {
@@ -37,6 +39,8 @@ class LoginUser extends Component
                 'login' => 'Bad credentials'
             ]);
         }
+
+        return redirect()->to('dashboard');
     }
 
     public function render()

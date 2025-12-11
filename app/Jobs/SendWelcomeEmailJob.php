@@ -35,7 +35,7 @@ class SendWelcomeEmailJob implements ShouldQueue
         Mail::to($this->user->email)
             ->send(new WelcomeMail($this->user));
 
-        Log::error("Welcome email send succesfully", [
+        Log::info("Welcome email send succesfully", [
             'user_id' => $this->user->id ?? null,
             'email' => $this->user->email ?? null
         ]);
