@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace App\Neuron;
 
 use NeuronAI\Agent;
-use NeuronAI\Providers\Gemini\Gemini;
 use NeuronAI\SystemPrompt;
 use NeuronAI\Providers\AIProviderInterface;
+use NeuronAI\Providers\OpenAI\OpenAI;
 
 class FinancialAgent extends Agent
 {
     protected function provider(): AIProviderInterface
     {
         // return an instance of Anthropic, OpenAI, Gemini, Ollama, etc...
-        return new Gemini(
-            key: config('services.gemini.key'),
-            model: config('services.gemini.model')
+        return new OpenAI(
+            key: config('services.openai.key'),
+            model: config('services.openai.model')
         );
     }
 

@@ -28,6 +28,16 @@ Web application for companies, where they can save, share or edit Financial docu
 
 ## Ai features
 
+Workflow:
+
+1. Utente carica / aggiorna i suoi financial_documents
+2. Creo embedding e salvo i documenti nel vector store (
+    - Quando salvo il document nel vector, li assegno id, un content con il contenuto e nei metadati l'user_id.
+    - Il vector memorizza embedding, contenuto e metadata.
+      )
+3. Quando l'utente fa una domanda la RAG cerca i documenti più pertinenti e li passa all'agent
+4. L'agent genera la risposta
+
 ### Rag
 
 -   Custom rag with financial-documents of users.
