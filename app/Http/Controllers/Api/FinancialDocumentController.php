@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\FinancialDocumentResource;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FinancialDocumentRequest;
@@ -19,16 +20,16 @@ class FinancialDocumentController extends Controller
      */
     public function index() {}
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(FinancialDocumentRequest $request) {
+    /*
+    public function store(FinancialDocumentRequest $request)
+    {
         $savedDocument = $this->financialDocumentService->create($request);
         return response()->json([
             'message' => "Document create with success",
-            'financial_document' => 
+            'financial_document' => new FinancialDocumentResource($savedDocument)
         ], 201);
     }
+     */
 
     /**
      * Display the specified resource.

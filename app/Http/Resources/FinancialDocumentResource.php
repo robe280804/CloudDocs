@@ -14,6 +14,12 @@ class FinancialDocumentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'user_id' => $this->user_id,
+            'period_start' => $this->period_start,
+            'period_end' => $this->period_end,
+            'notes' => $this->notes
+        ];
     }
 }
