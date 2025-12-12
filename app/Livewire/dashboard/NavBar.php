@@ -5,14 +5,19 @@ namespace App\Livewire\Dashboard;
 use Livewire\Component;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
+use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Livewire\Attributes\On;
 
 class NavBar extends Component
 {
 
     public User $user;
+
+    public function openEditProfileModal()
+    {
+        Flux::modal('edit-profile-modal')->show();
+    }
 
     public function mount()
     {

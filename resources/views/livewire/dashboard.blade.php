@@ -7,6 +7,9 @@
             @livewire('dashboard.nav-bar')
         </header>
 
+        {{-- Modal for edit profile --}}
+        @livewire("dashboard.edit-profile-modal")
+
         {{-- Main --}}
 
         {{-- - Footer --}}

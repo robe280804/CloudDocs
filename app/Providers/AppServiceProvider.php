@@ -12,6 +12,8 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Event;
 use App\Listeners\SendPasswordResetEmailListener;
+use App\Services\FinancialDocumentService;
+use App\Services\FinancialDocumentServiceImpl;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,6 +32,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             UserRepository::class,
             UserRepositoryImpl::class
+        );
+
+        $this->app->bind(
+            FinancialDocumentService::class,
+            FinancialDocumentServiceImpl::class
         );
     }
 
