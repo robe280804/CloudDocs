@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterUserRequest;
 use App\Http\Resources\UserResource;
-use App\Services\UserService;
+use App\Services\interface\UserService;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateUserRequest;
 
-class UserControllerApi extends Controller
+class UserController extends Controller
 {
 
     protected $userService;

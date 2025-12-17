@@ -9,6 +9,7 @@ use App\Repositories\UserRepository;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
+use App\Services\interface\UserService;
 use Illuminate\Support\Collection;
 
 class UserServiceImpl implements UserService

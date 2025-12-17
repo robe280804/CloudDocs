@@ -16,7 +16,7 @@ class FinancialDocumentSeeder extends Seeder
     {
         $faker = Faker::create('en_US');
 
-        $userId = '019b1233-8681-72f5-b3b5-7a3d245025af';
+        $userId = '019b2242-0fbd-7341-9f2f-d0347687798d';
 
         $incomeTitles = [
             'Invoice Payment',
@@ -50,7 +50,7 @@ class FinancialDocumentSeeder extends Seeder
 
         // Crea 10 financial documents
         for ($j = 0; $j < 10; $j++) {
-            $documentId = DB::table('financial_document')->insertGetId([
+            $documentId = DB::table('financial_documents')->insertGetId([
                 'user_id' => $userId,
                 'period_start' => $faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d'),
                 'period_end' => $faker->dateTimeBetween('now', '+1 month')->format('Y-m-d'),

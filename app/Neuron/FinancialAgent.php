@@ -1,22 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Neuron;
 
 use NeuronAI\Agent;
 use NeuronAI\SystemPrompt;
 use NeuronAI\Providers\AIProviderInterface;
-use NeuronAI\Providers\OpenAI\OpenAI;
+use NeuronAI\Providers\Ollama\Ollama;
+
 
 class FinancialAgent extends Agent
 {
     protected function provider(): AIProviderInterface
     {
         // return an instance of Anthropic, OpenAI, Gemini, Ollama, etc...
-        return new OpenAI(
-            key: config('services.openai.key'),
-            model: config('services.openai.model')
+        return new Ollama(
+            url: config('services.ollamma.url'),
+            model: config('services.ollamma.model')
         );
     }
 

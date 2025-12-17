@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('financial_document', function (Blueprint $table) {
+        Schema::create('financial_documents', function (Blueprint $table) {
             $table->id();
 
             $table->foreignUuid('user_id')
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId("financial_document_id")
-                ->constrained('financial_document')
+                ->constrained('financial_documents')
                 ->cascadeOnDelete();
 
             $table->string('title');

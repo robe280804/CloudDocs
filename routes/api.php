@@ -1,10 +1,12 @@
 <?php
 
-use App\Http\Controllers\Api\UserControllerApi;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Api\FinancialDocumentController;
+use App\Services\FinancialAgentService;
+use FinancialAgentController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -17,23 +19,27 @@ Route::middleware(['throttle:api'])->group(function () {
     Route::middleware("auth:sanctum")->group(function () {
 
         //User
-        Route::get('/user/{id}', [UserControllerApi::class, 'userInfo']);
-        Route::post('/update-profile-name/{id}', [UserControllerApi::class, 'updateUserName']);
-        Route::post('/change-password', [UserControllerApi::class, 'changePassword']);
+        Route::get('/user/{id}', [UserController::class, 'userInfo']);
+        Route::post('/update-profile-name/{id}', [UserController::class, 'updateUserName']);
+        Route::post('/change-password', [UserController::class, 'changePassword']);
         Route::middleware('admin')->group(function () {
-            Route::get('/users', [UserControllerApi::class, 'allUserInfo']);
-            Route::delete('/user/{id}', [UserControllerApi::class, 'delete']);
+            Route::get('/users', [UserController::class, 'allUserInfo']);
+            Route::delete('/user/{id}', [UserController::class, 'delete']);
         });
 
         // Financial documents
+        Route::prefix('finance-documents')->group(function () {
+            Route::post('/store', [FinancialDocumentController::class, 'store']);
+            Route::get('/', [FinancialDocumentController::class]);
+        });
+
+        Route::post("agent/question", [FinancialAgentController::class, 'makeQuestion']);
     });
     // Auth && Register
-    Route::post("/register", [UserControllerApi::class, 'register']);
+    Route::post("/register", [UserController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 });
 
 
-Route::prefix('finance-documents')->group(function () {
-    Route::post('/', [FinancilDocumentController::class]);
-    Route::get('/', [FinancilDocumentController::class]);
-});
+// Tests Neuron AI 
+Route::post("/insert-rag", [FinancialAgentService::class, 'testStringDataLoaderIntoRag']);

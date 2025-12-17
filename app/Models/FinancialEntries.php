@@ -17,7 +17,7 @@ class FinancialEntries extends Model
         'currency'
     ];
 
-    protected $cast = [
+    protected $casts = [
         'date' => 'date',
     ];
 

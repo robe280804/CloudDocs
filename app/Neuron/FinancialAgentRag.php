@@ -14,22 +14,27 @@ use NeuronAI\RAG\Embeddings\OpenAIEmbeddingsProvider;
 use NeuronAI\RAG\VectorStore\VectorStoreInterface;
 use NeuronAI\RAG\VectorStore\FileVectorStore;
 use App\Models\User;
+use Illuminate\Support\Collection;
+use NeuronAI\Providers\Ollama\Ollama;
+use NeuronAI\RAG\Document;
+use NeuronAI\RAG\DataLoader\StringDataLoader;
+use NeuronAI\RAG\Embeddings\OllamaEmbeddingsProvider;
 
 class FinancialAgentRag extends RAG
 {
     protected function provider(): AIProviderInterface
     {
-        return new OpenAI(
-            key: config('services.openai.key'),
-            model: config('services.openai.model')
+        return new Ollama(
+            url: config('services.ollamma.url'),
+            model: config('services.ollamma.model')
         );
     }
 
     protected function embeddings(): EmbeddingsProviderInterface
     {
-        return new OpenAIEmbeddingsProvider(
-            key: config('services.openai.key'),
-            model: 'OPENAI_EMBEDDINGS_MODEL' // text-embedding-3-small
+        return new OllamaEmbeddingsProvider(
+            url: config('services.ollamma.url'),
+            model: 'nomic-embed-text'
         );
     }
 
@@ -41,14 +46,14 @@ class FinancialAgentRag extends RAG
         );
     }
 
-    public function addDocumentToVector(FinancialDocument $document, array $relatedEntries, User $user)
+    public function addDocumentToVector(FinancialDocument $document, Collection $relatedEntries, User $user)
     {
-        $content = "Financial Document from {$document->period_start?->toDateString()} to {$document->period_end->toDateString()}\n";
-        $content .= "Notes: " . ($document->notes ?? 'N/A') . "\n\n";
-        $content .= "Entries: \n";
+        $contents = ["Financial Document from {$document->period_start?->toDateString()} to {$document->period_end->toDateString()}\n"];
+        $contents[] = "Notes: " . ($document->notes ?? 'N/A') . "\n\n";
+        $contents[] = "Entries: \n";
 
         foreach ($relatedEntries as $entry) {
-            $content .= sprintf(
+            $contents[] = sprintf(
                 "- [%s] %s | %s | %s | %.2f %s\n",
                 $entry->date?->toDateString(),
                 strtoupper($entry->type),
@@ -58,16 +63,6 @@ class FinancialAgentRag extends RAG
                 $entry->currency
             );
         }
-
-        $documentForRag = [
-            'id' => "doc_{$document->id}",
-            'content' => $content,
-            'metadata' => [
-                'user_id' => $user->id,
-                'document_id' => $document->id,
-            ],
-        ];
-
-        $this->addDocuments([$documentForRag]);
+        return $contents;
     }
 }

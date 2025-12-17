@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\interface;
 
 use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\UpdateUserRequest;
