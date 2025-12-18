@@ -10,29 +10,51 @@ use Illuminate\Support\Collection;
 use NeuronAI\RAG\DataLoader\StringDataLoader;
 use Illuminate\Support\Facades\Log;
 use NeuronAI\Chat\Messages\UserMessage;
+use App\Http\Requests\ChatRequest;
 
 class FinancialAgentService
 {
+    /**
+     * payload_schema {
+     *  'user_id'
+     *  'period_end'
+     *  'document_id'
+     *  'period_start'
+     *  'text'
+     * }
+     */
+
+
     public function loadDocumentIntoRag(FinancialDocument $document, Collection $relatedEntries, User $user)
     {
-        $contents = $this->convertDocumentToString($document, $relatedEntries, $user);
+        ini_set('max_execution_time', 1800);
 
-        $documents = StringDataLoader::for($contents)->getDocuments();
-        Log::info("Documents to insert into RAG", [
+        $documents = $this->convertDocumentoForRag($document, $relatedEntries, $user);
+        //$documents = StringDataLoader::for($contents)->getDocuments();
+
+        // Insert into Qdrant vector
+        FinancialAgentRag::make()->addDocuments($documents, 1);
+        Log::info("Documents insert into RAG", [
             'doc' => $documents
         ]);
-
-        FinancialAgentRag::make()->addDocuments($documents, 1);
     }
 
     public function chat(ChatRequest $request)
     {
+        ini_set('max_execution_time', 3600);
+        Log::info("user question", [
+            'question' => $request
+        ]);
+
+        // Dispathc with queue
         $response = FinancialAgent::make()->chat(
-            new UserMessage()
+            new UserMessage($request->question)
         );
+        return $response;
     }
-    private function convertDocumentToString(FinancialDocument $document, Collection $relatedEntries, User $user)
+    private function convertDocumentoForRag(FinancialDocument $document, Collection $relatedEntries, User $user)
     {
+        // Create content
         $content = "Financial Document from {$document->period_start?->toDateString()} to {$document->period_end->toDateString()}\n";
         $content .= "Notes: " . ($document->notes ?? 'N/A') . "\n\n";
         $content .= "Entries: \n";
@@ -48,7 +70,27 @@ class FinancialAgentService
                 $entry->currency
             );
         }
-        return $content;
+
+        Log::info("content: $content");
+
+        // Convert into NeuronAI\\RAG\\Document
+        $documents = StringDataLoader::for($content)->getDocuments();
+        Log::info("documents", [
+            'doc' => $documents
+        ]);
+
+        // Adding metadata
+        foreach ($documents as $doc) {
+            $doc->addMetadata('user_id', $user->id);
+            $doc->addMetadata('document_id', $document->id);
+            $doc->addMetadata('period_start', $document->period_start?->toISOString());
+            $doc->addMetadata('period_end', $document->period_end?->toISOString());
+        }
+
+        Log::info("documents with metadata", [
+            'doc' => $documents
+        ]);
+        return $documents;
     }
 
     public function testStringDataLoaderIntoRag()

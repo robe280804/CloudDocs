@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\FinancialDocumentController;
 use App\Services\FinancialAgentService;
-use FinancialAgentController;
+use App\Http\Controllers\Api\FinancialAgentController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -33,7 +33,7 @@ Route::middleware(['throttle:api'])->group(function () {
             Route::get('/', [FinancialDocumentController::class]);
         });
 
-        Route::post("agent/question", [FinancialAgentController::class, 'makeQuestion']);
+        Route::post("agent/question", [FinancialAgentController::class, 'chat']);
     });
     // Auth && Register
     Route::post("/register", [UserController::class, 'register']);

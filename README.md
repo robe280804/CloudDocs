@@ -49,3 +49,4 @@ Workflow:
 -   Liveire
 -   Livewire UI
 -   Neuron AI
+-   Qdrant

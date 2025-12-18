@@ -38,6 +38,10 @@ return [
     'ollamma' => [
         'url' => env('OLLAMMA_URL'),
         'model' => env('OLLAMMA_MODEL')
-    ]
+    ],
 
+    'qdrant' => [
+        'url' => env('QDRANT_URL'),
+        'key' => env('QDRANT_API_KEY')
+    ],
 ];
