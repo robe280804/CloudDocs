@@ -30,7 +30,6 @@ class FinancialAgentService
         ini_set('max_execution_time', 1800);
 
         $documents = $this->convertDocumentoForRag($document, $relatedEntries, $user);
-        //$documents = StringDataLoader::for($contents)->getDocuments();
 
         // Insert into Qdrant vector
         FinancialAgentRag::make()->addDocuments($documents, 1);
@@ -70,14 +69,13 @@ class FinancialAgentService
                 $entry->currency
             );
         }
-
-        Log::info("content: $content");
+        //Log::info("content: $content");
 
         // Convert into NeuronAI\\RAG\\Document
         $documents = StringDataLoader::for($content)->getDocuments();
-        Log::info("documents", [
+        /*Log::info("documents", [
             'doc' => $documents
-        ]);
+        ]);*/
 
         // Adding metadata
         foreach ($documents as $doc) {
@@ -87,9 +85,9 @@ class FinancialAgentService
             $doc->addMetadata('period_end', $document->period_end?->toISOString());
         }
 
-        Log::info("documents with metadata", [
+        /*Log::info("documents with metadata", [
             'doc' => $documents
-        ]);
+        ]);*/
         return $documents;
     }
 

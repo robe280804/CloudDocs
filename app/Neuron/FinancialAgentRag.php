@@ -4,20 +4,17 @@ declare(strict_types=1);
 
 namespace App\Neuron;
 
+use Illuminate\Support\Facades\Auth;
 use NeuronAI\Providers\AIProviderInterface;
 use NeuronAI\RAG\Embeddings\EmbeddingsProviderInterface;
 use NeuronAI\RAG\RAG;
-use NeuronAI\Providers\OpenAI\OpenAI;
-use NeuronAI\RAG\Embeddings\OpenAIEmbeddingsProvider;
 use NeuronAI\RAG\VectorStore\QdrantVectorStore;
 use NeuronAI\RAG\VectorStore\VectorStoreInterface;
-use NeuronAI\RAG\VectorStore\FileVectorStore;
-use App\Models\User;
-use Illuminate\Support\Collection;
 use NeuronAI\Providers\Ollama\Ollama;
-use NeuronAI\RAG\Document;
-use NeuronAI\RAG\DataLoader\StringDataLoader;
+use App\AI\VectorStore\CustomQdrantVectorStore;
+use NeuronAI\RAG\Retrieval\SimilarityRetrieval;
 use NeuronAI\RAG\Embeddings\OllamaEmbeddingsProvider;
+use NeuronAI\RAG\Retrieval\RetrievalInterface;
 
 class FinancialAgentRag extends RAG
 {
@@ -43,6 +40,22 @@ class FinancialAgentRag extends RAG
         return new QdrantVectorStore(
             collectionUrl: config('services.qdrant.url'),
             key: config('services.qdrant.key')
+        );
+    }
+
+    // Custom retrivial based on user->id
+    protected function retrieval(): RetrievalInterface
+    {
+        $store =  new CustomQdrantVectorStore(
+            collectionUrl: config('services.qdrant.url'),
+            key: config('services.qdrant.key')
+        );
+
+        $store->setUser(Auth::user()->id);
+
+        return new SimilarityRetrieval(
+            $store,
+            $this->embeddings()
         );
     }
 }
