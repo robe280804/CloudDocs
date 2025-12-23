@@ -6,6 +6,7 @@ use App\Neuron\FinancialAgentRag;
 use App\Models\FinancialDocument;
 use App\Models\User;
 use App\Neuron\FinancialAgent;
+use App\Neuron\FinancialAgentWorkflow;
 use Illuminate\Support\Collection;
 use NeuronAI\RAG\DataLoader\StringDataLoader;
 use Illuminate\Support\Facades\Log;
@@ -41,16 +42,11 @@ class FinancialAgentService
     public function chat(ChatRequest $request)
     {
         ini_set('max_execution_time', 3600);
-        Log::info("user question", [
-            'question' => $request
-        ]);
+        $response = FinancialAgentWorkflow::make()->start()->getResult();
 
-        // Dispathc with queue
-        $response = FinancialAgent::make()->chat(
-            new UserMessage($request->question)
-        );
-        return $response;
+        return $response->get('response');
     }
+
     private function convertDocumentoForRag(FinancialDocument $document, Collection $relatedEntries, User $user)
     {
         // Create content

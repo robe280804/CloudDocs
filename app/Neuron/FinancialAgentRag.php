@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Neuron;
 
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +9,7 @@ use NeuronAI\RAG\RAG;
 use NeuronAI\RAG\VectorStore\QdrantVectorStore;
 use NeuronAI\RAG\VectorStore\VectorStoreInterface;
 use NeuronAI\Providers\Ollama\Ollama;
-use App\AI\VectorStore\CustomQdrantVectorStore;
+use App\Neuron\QdrantCustomVectorStore;
 use NeuronAI\RAG\Retrieval\SimilarityRetrieval;
 use NeuronAI\RAG\Embeddings\OllamaEmbeddingsProvider;
 use NeuronAI\RAG\Retrieval\RetrievalInterface;
@@ -43,10 +41,9 @@ class FinancialAgentRag extends RAG
         );
     }
 
-    // Custom retrivial based on user->id
     protected function retrieval(): RetrievalInterface
     {
-        $store =  new CustomQdrantVectorStore(
+        $store =  new QdrantCustomVectorStore(
             collectionUrl: config('services.qdrant.url'),
             key: config('services.qdrant.key')
         );

@@ -1,15 +1,15 @@
 <?php
 
+
 declare(strict_types=1);
 
-namespace App\AI\VectorStore;
+namespace App\Neuron;
 
 use GuzzleHttp\RequestOptions;
 use NeuronAI\RAG\VectorStore\QdrantVectorStore;
 use NeuronAI\RAG\Document;
-use ReflectionClass;
 
-class CustomQdrantVectorStore extends QdrantVectorStore
+class QdrantCustomVectorStore extends QdrantVectorStore
 {
     protected ?string $currentUserId = null;
 
