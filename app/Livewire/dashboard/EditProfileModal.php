@@ -63,6 +63,6 @@ class EditProfileModal extends Component
 
     public function render()
     {
-        return view('components.dashboard.edit-profile-modal');
+        return view('livewire.dashboard.edit-profile-modal');
     }
 }

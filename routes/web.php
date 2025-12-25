@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Dashboard\Dashboard;
 use App\Livewire\LoginUser;
 use App\Livewire\RegisterUser;
 use App\Livewire\ResetPasswordConfirm;
@@ -12,7 +13,7 @@ use Livewire\Volt\Volt;
 Route::middleware(['throttle:web'])->group(function () {
 
     Route::middleware(['auth'])->group(function () {
-        Route::view('dashboard', 'livewire.dashboard')
+        Route::get('dashboard', Dashboard::class)
             ->middleware(['auth', 'verified'])
             ->name('dashboard');
 

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\QdrantEvent;
 use App\Neuron\FinancialAgentRag;
 use App\Models\FinancialDocument;
 use App\Models\User;
@@ -33,10 +34,9 @@ class FinancialAgentService
         $documents = $this->convertDocumentoForRag($document, $relatedEntries, $user);
 
         // Insert into Qdrant vector
-        FinancialAgentRag::make()->addDocuments($documents, 1);
-        Log::info("Documents insert into RAG", [
-            'doc' => $documents
-        ]);
+        QdrantEvent::dispatch($documents);
+
+        return $documents;
     }
 
     public function chat(ChatRequest $request)
