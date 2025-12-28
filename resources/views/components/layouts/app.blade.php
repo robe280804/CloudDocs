@@ -21,6 +21,7 @@
 
 <body>
     {{ $slot }}
+    <livewire:livewire-ui-modal />
     @livewireScripts()
     @fluxScripts
 

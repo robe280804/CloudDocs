@@ -18,7 +18,7 @@ class FinancialDocumentServiceImpl implements FinancialDocumentService
         $this->financialAgentService = $financialAgentService;
     }
 
-    public function store(FinancialDocumentRequest $request)
+    public function store(FinancialDocumentRequest | array $request)
     {
         $user = Auth::user();
 

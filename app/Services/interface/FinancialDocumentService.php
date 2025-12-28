@@ -7,5 +7,5 @@ use App\Models\FinancialDocument;
 
 interface FinancialDocumentService
 {
-    function store(FinancialDocumentRequest $request);
+    function store(FinancialDocumentRequest | array $request);
 }

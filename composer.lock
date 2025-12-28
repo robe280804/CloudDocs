@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "37f62e3eed8614a69b21c57e3feb825d",
+    "content-hash": "89d0ca54a3c93e1b192ef00fa26c3673",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2379,6 +2379,71 @@
                 }
             ],
             "time": "2025-11-18T12:17:23+00:00"
+        },
+        {
+            "name": "livewire-ui/modal",
+            "version": "3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wire-elements/modal.git",
+                "reference": "cf7eb0ec35d27807ed6380efe9f949c6aa9351f8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wire-elements/modal/zipball/cf7eb0ec35d27807ed6380efe9f949c6aa9351f8",
+                "reference": "cf7eb0ec35d27807ed6380efe9f949c6aa9351f8",
+                "shasum": ""
+            },
+            "require": {
+                "livewire/livewire": "^3.2.3",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.9"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.5",
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "LivewireUI\\Modal\\LivewireModalServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "LivewireUI\\Modal\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Philo Hermans",
+                    "email": "me@philohermans.com"
+                }
+            ],
+            "description": "Laravel Livewire modal component",
+            "keywords": [
+                "laravel",
+                "livewire",
+                "modal"
+            ],
+            "support": {
+                "issues": "https://github.com/wire-elements/modal/issues",
+                "source": "https://github.com/wire-elements/modal/tree/3.0.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/PhiloNL",
+                    "type": "github"
+                }
+            ],
+            "abandoned": "wire-elements/modal",
+            "time": "2025-06-20T14:12:38+00:00"
         },
         {
             "name": "livewire/flux",
